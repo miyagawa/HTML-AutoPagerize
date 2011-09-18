@@ -19,6 +19,11 @@ sub sites {
     $self->{sites};
 }
 
+sub sorted_sites {
+    my $self = shift;
+    return [ sort { length $b->{url} <=> length $a->{url} } @{ $self->sites } ];
+}
+
 sub add_site {
     my($self, %site) = @_;
 
@@ -59,7 +64,7 @@ sub handle {
 sub site_info_for {
     my($self, $uri) = @_;
 
-    for my $site (@{ $self->sites }) {
+    for my $site (@{ $self->sorted_sites }) {
         if ($uri =~ $site->{url}) {
             return $site;
         }
